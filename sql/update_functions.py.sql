@@ -54,7 +54,7 @@ $$;
 
 
 CREATE OR REPLACE FUNCTION sails_postsql._make_update_function(dbobj text) 
-RETURNS VOID LANGUAGE plpythonu
+RETURNS text LANGUAGE plpythonu
 AS $_maker_$
 
 query = """
@@ -75,6 +75,8 @@ $$;
 """ % {'dbobj':dbobj,'dbobj_lit':plpy.quote_literal(dbobj)}
 
 plpy.execute(query)
+
+return "sails_postsql.%(dbobj)s_update(options_in json, data_in json, OUT data_out json)" % {'dbobj':dbobj}
 
 $_maker_$;
 
