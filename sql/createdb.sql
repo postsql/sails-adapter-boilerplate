@@ -28,3 +28,5 @@ CREATE EXTENSION IF NOT EXISTS citext;
 -- destroy functions
 \i destroy_functions.sql
 
+-- ad function to create above 4 functions for a table
+\i add_crud_functions.sql

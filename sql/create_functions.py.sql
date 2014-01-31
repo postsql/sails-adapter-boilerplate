@@ -28,7 +28,7 @@ return res[0]['res']
 $$;
 */
 
-
+/*
 CREATE OR REPLACE FUNCTION sails_postsql._make_create_function(dbobj text) 
 RETURNS VOID LANGUAGE plpythonu
 AS $_maker_$
@@ -57,7 +57,7 @@ $$;""" % {'dbobj':dbobj,'dbobj_q':plpy.quote_ident(dbobj)}
 plpy.execute(query)
 
 $_maker_$;
-
+*/
 
 
 CREATE OR REPLACE FUNCTION sails_postsql._make_create_function(dbobj text) 
@@ -90,12 +90,8 @@ plpy.execute(query)
 
 $_maker_$;
 
-
-
-
-
-SELECT sails_postsql._make_create_function('user');
-SELECT sails_postsql._make_create_function('pkfactory');
-SELECT sails_postsql._make_create_function('document');
+-- SELECT sails_postsql._make_create_function('user');
+-- SELECT sails_postsql._make_create_function('pkfactory');
+-- SELECT sails_postsql._make_create_function('document');
 
 

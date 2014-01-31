@@ -225,36 +225,35 @@ GD['query_builders_loaded'] = True
 
 $$;
 
-/*
-LOG:  duration: 0.079 ms  bind <unnamed>: SELECT * FROM user_find($1);
-DETAIL:  parameters: $1 = '{"where":{"type":"min test"},"min":["age"]}'
-WARNING:  ('find_query', u'SELECT row_to_json(s.*) AS res FROM (SELECT min(age)::float AS age FROM "user" WHERE type = \'min test\')s')
-CONTEXT:  PL/Python function "user_find"
-WARNING:  ('>> %', '{"age":-9}')
-CONTEXT:  PL/Python function "user_find"
-LOG:  duration: 0.792 ms  execute <unnamed>: SELECT * FROM user_find($1);
-DETAIL:  parameters: $1 = '{"where":{"type":"min test"},"min":["age"]}'
-LOG:  duration: 0.167 ms  parse <unnamed>: SELECT * FROM user_find($1);
-LOG:  duration: 0.064 ms  bind <unnamed>: SELECT * FROM user_find($1);
-DETAIL:  parameters: $1 = '{"where":{"type":"min test"},"min":["age","percent"]}'
-WARNING:  ('find_query', u'SELECT row_to_json(s.*) AS res FROM (SELECT min(age)::float AS age, min(percent)::float AS percent FROM "user" WHERE type = \'min test\')s')
-CONTEXT:  PL/Python function "user_find"
-WARNING:  ('>> %', '{"age":-9,"percent":-4.5}')
-*/
+CREATE OR REPLACE FUNCTION sails_postsql._build_find_query(dbobj text, options_in json, OUT query text) 
+RETURNS text LANGUAGE plpythonu
+AS $_gen_$
+    if not GD.has_key('query_builders_loaded'):
+       plpy.execute('SELECT load_query_builders()')
+    query = GD['build_find_query']('user', options_in)
+    return query
+$_gen_$;
 
-/*
-STATEMENT:  /*find*/ SELECT "\"user\"", {"where":{"type":"min test"},"min":["age"]}
-LOG:  duration: 0.389 ms  parse <unnamed>: SELECT MIN(age) AS age FROM "user" WHERE LOWER("type") = $1
-LOG:  duration: 0.544 ms  bind <unnamed>: SELECT MIN(age) AS age FROM "user" WHERE LOWER("type") = $1
-DETAIL:  parameters: $1 = 'min test'
-LOG:  duration: 0.578 ms  execute <unnamed>: SELECT MIN(age) AS age FROM "user" WHERE LOWER("type") = $1
-DETAIL:  parameters: $1 = 'min test'
-ERROR:  syntax error at or near "user" at character 20
-STATEMENT:  /*find*/ SELECT "\"user\"", {"where":{"type":"min test"},"min":["age","percent"]}
-LOG:  duration: 0.237 ms  parse <unnamed>: SELECT MIN(age) AS age, MIN(percent) AS percent FROM "user" WHERE LOWER("type") = $1
-LOG:  duration: 0.559 ms  bind <unnamed>: SELECT MIN(age) AS age, MIN(percent) AS percent FROM "user" WHERE LOWER("type") = $1
-DETAIL:  parameters: $1 = 'min test'
-LOG:  duration: 0.377 ms  execute <unnamed>: SELECT MIN(age) AS age, MIN(percent) AS percent FROM "user" WHERE LOWER("type") = $1
-DETAIL:  parameters: $1 = 'min test'
-ERROR:  syntax error at or near "user" at character 20
-*/
+CREATE OR REPLACE FUNCTION sails_postsql._build_update_query(dbobj text, options_in json, data_in json, OUT query text) 
+RETURNS text LANGUAGE plpythonu
+AS $_gen_$
+    if not GD.has_key('query_builders_loaded'):
+       plpy.execute('SELECT load_query_builders()')
+    query = GD['build_update_query']('user', options_in, data_in)
+    return query
+$_gen_$;
+
+CREATE OR REPLACE FUNCTION sails_postsql._build_destroy_query(dbobj text, options_in json, OUT query text) 
+RETURNS text LANGUAGE plpythonu
+AS $_gen_$
+    if not GD.has_key('query_builders_loaded'):
+       plpy.execute('SELECT load_query_builders()')
+    query = GD['build_destroy_query']('user', options_in)
+    return query
+$_gen_$;
+
+
+
+
+
+

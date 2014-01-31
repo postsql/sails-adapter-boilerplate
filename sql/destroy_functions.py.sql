@@ -27,24 +27,21 @@ CREATE OR REPLACE FUNCTION sails_postsql.%(dbobj)s_destroy(options_in json, OUT 
 LANGUAGE plpythonu
 AS $$
 
-if not GD.has_key('query_builders_loaded'):
-   plpy.execute('SELECT load_query_builders()')
+query = plpy.execute("SELECT query FROM _build_destroy_query(%(dbobj_lit)s,%%s)" %% plpy.quote_literal(options_in))[0]["query"]
 
-build_destroy_query = GD['build_destroy_query']
-
-query = build_destroy_query('%(dbobj)s', options_in)
 res = plpy.execute(query)
 
 # TODO: return actual primary key column(s)
 if res:
     return [row['id'] for row in res]
 $$;
-""" % {'dbobj':dbobj,'dbobj_q':plpy.quote_ident(dbobj)}
+""" % {'dbobj':dbobj,'dbobj_lit':plpy.quote_literal(dbobj)}
 
 plpy.execute(query)
 
 $_maker_$;
 
-SELECT sails_postsql._make_destroy_function('user');
-SELECT sails_postsql._make_destroy_function('pkfactory');
-SELECT sails_postsql._make_destroy_function('document');
+-- SELECT sails_postsql._make_destroy_function('user');
+-- SELECT sails_postsql._make_destroy_function('pkfactory');
+-- SELECT sails_postsql._make_destroy_function('document');
+

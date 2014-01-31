@@ -63,14 +63,7 @@ RETURNS SETOF json
 LANGUAGE plpythonu
 AS $$
 
-import json
-
-if not GD.has_key('query_builders_loaded'):
-   plpy.execute('SELECT load_query_builders()')
-
-build_update_query = GD['build_update_query']
-
-query = build_update_query('%(dbobj)s', options_in, data_in)
+query = plpy.execute("SELECT query FROM _build_update_query(%(dbobj_lit)s,%%s,%%s)" %% (plpy.quote_literal(options_in),plpy.quote_literal(data_in)))[0]["query"]
 
 res = plpy.execute(query)
 
@@ -79,12 +72,12 @@ if res:
         yield row['res']
 
 $$;
-""" % {'dbobj':dbobj,'dbobj_q':plpy.quote_ident(dbobj)}
+""" % {'dbobj':dbobj,'dbobj_lit':plpy.quote_literal(dbobj)}
 
 plpy.execute(query)
 
 $_maker_$;
 
-SELECT sails_postsql._make_update_function('user');
-SELECT sails_postsql._make_update_function('pkfactory');
-SELECT sails_postsql._make_update_function('document');
+-- SELECT sails_postsql._make_update_function('user');
+-- SELECT sails_postsql._make_update_function('pkfactory');
+-- SELECT sails_postsql._make_update_function('document');
