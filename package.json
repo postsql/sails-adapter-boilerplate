@@ -1,26 +1,36 @@
 {
-  "name": "sails-adapter-boilerplate",
-  "version": "0.0.1",
-  "description": "Boilerplate adapter for Sails.js",
-  "main": "BoilerplateAdapter.js",
-  "scripts": {
-    "test": "echo \"Adapter should be tested using Sails.js core.\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/balderdashy/sails-adapter-boilerplate.git"
-  },
+  "name": "sails-postsql",
+  "description": "a postgreSQL adapter for Waterline and Sails.js",
+  "version": "0.9.5",
+  "author": "Cody Stoltman <particlebanana@gmail.com>",
+  "url": "http://github.com/balderdashy/sails-postgresql",
   "keywords": [
+    "postgresql",
     "orm",
     "waterline",
-    "sails",
-    "sailsjs",
-    "sails.js"
+    "sails"
   ],
-  "author": "Your name here",
-  "license": "MIT",
-  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/balderdashy/sails-postgresql.git"
+  },
   "dependencies": {
-    "async": "0.1.22"
-  }
+    "pg": "~2.8.2",
+    "underscore": "~1.5.2",
+    "async": "~0.2.9"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*",
+    "waterline-adapter-tests": "~0.9.4"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "main": "lib/adapter",
+  "directories": {
+    "lib": "./lib"
+  },
+  "license": "MIT",
+  "bugs": "https://github.com/balderdashy/sails-postgresql/issues"
 }
